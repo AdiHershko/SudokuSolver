@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
@@ -33,5 +34,6 @@
         </rowConstraints>
       </GridPane>
       <Button fx:id="solveButton" layoutX="37.0" layoutY="205.0" mnemonicParsing="false" onAction="#SolveSud" text="Solve" />
+      <CheckBox fx:id="showProcessBox" layoutX="14.0" layoutY="243.0" mnemonicParsing="false" onAction="#showProc" selected="true" text="Show process" />
    </children>
 </Pane>

@@ -54,16 +54,25 @@ public class SudokuSolver {
 		    {
 		        if (canPutNumber(board, row, col, num))
 		        {
-		        	SudokuController.numbers[row][col].setStyle("-fx-background-color: yellow;");
+		        	if (SudokuController.showProcess)
+		        		SudokuController.numbers[row][col].setStyle("-fx-background-color: yellow;");
 		            s.getBoard().put(row, col, num);
+		            if (SudokuController.showProcess)
+		            {
 		            try{
 		            	Thread.sleep(1);
 		            }catch(InterruptedException e) { }
+		            }
 		        //    System.out.println(s.getBoard());
-		            if (s.isGameOver()){ finished=true; SudokuController.numbers[row][col].setStyle("-fx-background-color: #00CC00;"); return true; }
+		            if (s.isGameOver()){ finished=true;
+		            if (SudokuController.showProcess)
+		            	SudokuController.numbers[row][col].setStyle("-fx-background-color: #00CC00;");
+		            	return true;
+		            }
 		            if (Solve(s.getBoard()))
 		            {
-		            	SudokuController.numbers[row][col].setStyle("-fx-background-color: #00CC00;");
+		            	if (SudokuController.showProcess)
+		            		SudokuController.numbers[row][col].setStyle("-fx-background-color: #00CC00;");
 		                return true;
 		            }
 		            else

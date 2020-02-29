@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -27,11 +28,17 @@ public class SudokuController {
 
 	public static TextField[][] numbers;
 
+	@FXML
+	private CheckBox showProcessBox;
+
+	public static boolean showProcess;
+
 
 
 
 	@SuppressWarnings("unchecked")
 	public void initialize(){
+		showProcess=true;
 		ss = new SudokuSolver();
 		numbers= new TextField[9][9];
 		Thread t = new Thread(new BoardUpdate());
@@ -68,29 +75,8 @@ public class SudokuController {
 	new Thread(){
 		public void run(){
 			ss.Solve(ss.s.getBoard());
-		}
-	}.start();
-
-	/*	new Thread(){
-			public void run(){
-				while (!ss.finished)
-				{
-					try {
-						Thread.sleep(1);
-					} catch (InterruptedException e) {
-
-					}
-						Platform.runLater(new Runnable(){
-							public void run(){
-								update();
-							}
-
-						});
-				}
 			}
-		}.start();*/
-
-
+		}.start();
 	}
 
 	private class EditNumber implements EventHandler<MouseEvent>{
@@ -150,6 +136,12 @@ public class SudokuController {
 			}
 
 		}
+
+	}
+
+	@FXML
+	public void showProc(){
+		Platform.runLater(()->showProcess=showProcessBox.isSelected());
 
 	}
 
