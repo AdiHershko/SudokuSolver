@@ -34,14 +34,17 @@ public class SudokuController {
 	public static boolean showProcess;
 
 
+	private Thread t;
+
+
 
 
 	@SuppressWarnings("unchecked")
 	public void initialize(){
 		showProcess=true;
 		ss = new SudokuSolver();
+		t = new Thread(new BoardUpdate());
 		numbers= new TextField[9][9];
-		Thread t = new Thread(new BoardUpdate());
 		for (int i=0;i<9;i++)
 			for (int j=0;j<9;j++)
 			{
@@ -52,10 +55,8 @@ public class SudokuController {
 				l.setFont(f);
 				numbers[i][j]=l;
 				l.setPadding(new Insets(20));
-				//l.setOnMouseClicked(new EditNumber(i,j,numbers[i][j]));
 				gridPane.add(l, i, j);
 			}
-		t.start();
 	}
 
 	private void update(){
@@ -72,45 +73,16 @@ public class SudokuController {
 
 
 	public void solve(){
+		t=new Thread(new BoardUpdate());
+		for (int i=0;i<9;i++)
+			for (int j=0;j<9;j++)
+				ss.s.put(i, j, Integer.parseInt(numbers[i][j].getText()));
 	new Thread(){
 		public void run(){
 			ss.Solve(ss.s.getBoard());
 			}
 		}.start();
-	}
-
-	private class EditNumber implements EventHandler<MouseEvent>{
-
-		int x,y;
-		Label l;
-
-		public EditNumber(int x,int y,Label l)
-		{
-			this.x=x; this.y=y; this.l=l;
-		}
-
-		@Override
-		public void handle(MouseEvent arg0) {
-			l.setText("");
-			TextField t = new TextField();
-			t.setBackground(Background.EMPTY);
-			t.setFont(new Font("Arial",20));
-			Platform.runLater(new Runnable(){
-				@Override
-				public void run() {
-					t.requestFocus();
-				}
-
-			});
-			gridPane.add(t, x, y);
-			while (t.isFocused());
-			if (t.getText()!=""&&t.getText()!=null)
-			{
-				l.setText(t.getText());
-				ss.s.put(x, y, Integer.parseInt(t.getText()));
-			}
-
-		}
+		t.start();
 	}
 
 	private class BoardUpdate implements Runnable{
@@ -132,17 +104,48 @@ public class SudokuController {
 
 				try {
 					Thread.sleep(100);
-				} catch(InterruptedException e) {}
+				} catch(InterruptedException e) {
+					return;
+				}
 			}
 
 		}
 
 	}
 
+
 	@FXML
 	public void showProc(){
 		Platform.runLater(()->showProcess=showProcessBox.isSelected());
 
+	}
+
+	@FXML
+	public void reset(){
+		t.interrupt();
+		ss = new SudokuSolver();
+		for (int i=0;i<9;i++)
+			for (int j=0;j<9;j++)
+				numbers[i][j].setText(""+ss.s.get(i, j));
+		for (int i=0;i<9;i++)
+			for (int j=0;j<9;j++)
+				numbers[i][j].setStyle("-fx-backgound-color: grey;");
+
+	}
+
+	@FXML
+	public void clear(){
+		t.interrupt();
+		ss = new SudokuSolver();
+		for (int i=0;i<9;i++)
+			for (int j=0;j<9;j++)
+				ss.s.put(i, j, 0);
+		for (int i=0;i<9;i++)
+			for (int j=0;j<9;j++)
+				numbers[i][j].setText(""+ss.s.get(i, j));
+		for (int i=0;i<9;i++)
+			for (int j=0;j<9;j++)
+				numbers[i][j].setStyle("-fx-backgound-color: grey;");
 	}
 
 }

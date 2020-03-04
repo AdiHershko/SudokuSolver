@@ -35,5 +35,7 @@
       </GridPane>
       <Button fx:id="solveButton" layoutX="37.0" layoutY="205.0" mnemonicParsing="false" onAction="#SolveSud" text="Solve" />
       <CheckBox fx:id="showProcessBox" layoutX="14.0" layoutY="243.0" mnemonicParsing="false" onAction="#showProc" selected="true" text="Show process" />
+      <Button layoutX="35.0" layoutY="389.0" mnemonicParsing="false" onAction="#reset" text="Reset" />
+      <Button layoutX="32.0" layoutY="467.0" mnemonicParsing="false" onAction="#clear" text="Clear" />
    </children>
 </Pane>

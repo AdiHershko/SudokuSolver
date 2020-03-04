@@ -63,7 +63,6 @@ public class SudokuSolver {
 		            	Thread.sleep(1);
 		            }catch(InterruptedException e) { }
 		            }
-		        //    System.out.println(s.getBoard());
 		            if (s.isGameOver()){ finished=true;
 		            if (SudokuController.showProcess)
 		            	SudokuController.numbers[row][col].setStyle("-fx-background-color: #00CC00;");
